@@ -137,12 +137,15 @@ $(function () {
 	var getData =  _GET(search);
 	uval = getData.val;
 });
+	setTimeout(() => cl(), 30);
+	
 //====== club, opn 지정 =====
+function cl(){		
 	clb = uval;
-		
-if (clb == "a") {club = "산술애"; opn = "y";};
-if (clb == "b") {club = "부중산"; opn = "y";};
-if (clb == "c") {club = ""; opn = "y";};
+	if (clb == "a") {club = "산술애"; opn = "y";};
+	if (clb == "b") {club = "부중산"; opn = "y";};
+	if (clb == "c") {club = ""; opn = "y";};
+};
 			
 $(function(){
 	setTimeout(() => alplist(), 500);
