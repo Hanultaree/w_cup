@@ -188,6 +188,8 @@ function cme(){		//-- 산행사진에서 계절별 테이블로 RETURN 할때
   		txt.push('<div class="item s1 tit">년도</div><div class="item s2 tit">봄</div><div class="item s3 tit">여름</div><div class="item s4 tit">가을</div><div class="item s5 tit">겨울</div>'); //*--table 표 헤드부분....
 
   //========== 배열 영역 (frames) ======================
+	lists.length = 0;
+		
 	if (club=="all"){
 	  lists = $.map(skds, function(element, index) {
 		 if (element[12] !="") {
