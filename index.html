@@ -109,15 +109,15 @@ function fread(fn){
 	});
     });
 };
-
+		
   //--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
   var seq = ""; //--- (산행기)  seq>"000",   "" : 전체목록표	
-  var club = "산술애"; //--- (산악회)  "부중산", "산술애",   "" : 전체
-  var opn = "y"; //--- (사진공개)   "y": 전체공개, "n": 일부공개tlistg();
+  var club = ""; //--- (산악회)  "부중산", "산술애",   "" : 전체
+  var opn = ""; //--- (사진공개)   "y": 전체공개, "n": 일부공개tlistg();
   //--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
   var num = 0; 	var uval = ""; var clb = "";
   var ctg = "" ;var c_cd = ""; var c_cd0 = ""; var c_cd1 = ""; var cod = "";
-/* 
+
 //================== seq 값 읽어오기 ================
     function _GET(search) {
         var obj = {};
@@ -138,16 +138,10 @@ window.onload = function () {
 	uval = getData.val;
 }
 //====== club, seq, opn 지정 =====
-if (uval.length == 0){
-	clb = ""; club = ""; opn = "n";
-	seq = "";
-}else if (uval.length == 1){
+if (uval.length == 4){
 	clb = uval.substr(0,1);
-	seq = "";
-}else if (uval.length == 4){
-	clb = uval.substr(0,1);
-	seq = uval.substr(1,3);
 }
+		
 switch (clb) {
   case "a" :
     club = "산술애"; opn = "y";
@@ -159,24 +153,19 @@ switch (clb) {
     club = ""; opn = "y";
     break;
 };
-//====== mmenu / alprpt(seq 지정시) 실행
-if (seq !== ""){
-	$(".mmenu").hide();
-	alprpt(seq);
-}else {
-*/
-		$(function(){
-				setTimeout(() => alplist(), 500);
-				$(".item").show();
+			
+$(function(){
+	setTimeout(() => alplist(), 500);
+	$(".item").show();
 
-				$(function() {
-					$(document).on("click", ".mnt", function(){
-						seq=$(this).attr('title');  //*변수생성하여 클릭한 title을 대입
-						$(".item").hide();
-						alprpt(seq);
-					});
-				});
+	$(function() {
+		$(document).on("click", ".mnt", function(){
+			seq=$(this).attr('title');  //*변수생성하여 클릭한 title을 대입
+			$(".item").hide();
+			alprpt(seq);
 		});
+	});
+});
  			
 function item(){		//-- 산행지list에서 계절별 테이블로 RETURN 할때
 	$(".lit").hide();
