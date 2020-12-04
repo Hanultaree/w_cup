@@ -152,7 +152,7 @@ switch (clb) {
 };
 
 $(function(){
-	setTimeout(() => alplist(), 500);
+	setTimeout(() => alplist(club), 500);
 	$(".item").show();
 
 	$(function() {
@@ -189,7 +189,7 @@ function cme(){		//-- 산행사진에서 계절별 테이블로 RETURN 할때
   var cnn=2;
   var ncl="s2";
 
-  function alplist(){
+  function alplist(club){
   	$(function() {
 	 	var txt = new Array; var tsm="";
 
@@ -200,7 +200,7 @@ function cme(){		//-- 산행사진에서 계절별 테이블로 RETURN 할때
   //========== 배열 영역 (frames) ======================
     if (club ==""){
 	  var lists = $.map(skds, function(element, index) {
-		 if (element[0] !="") {
+		 if (element[0] != "") {
 			return [element]
 		 };
 	  });
