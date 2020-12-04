@@ -112,14 +112,14 @@ function fread(fn){
 		
   //--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
   var seq = ""; //--- (산행기)  seq>"000",   "" : 전체목록표	
-  var club = ""; //--- (산악회)  "부중산", "산술애",   "all" : 전체
+  var club = "산술애"; //--- (산악회)  "부중산", "산술애",   "all" : 전체
   var opn = ""; //--- (사진공개)   "y": 전체공개, "n": 일부공개tlistg();
   //--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
   var num = 0; 	var uval = ""; var clb = "";
   var ctg = "" ;var c_cd = ""; var c_cd0 = ""; var c_cd1 = ""; var cod = "";
 
 //================== seq 값 읽어오기 ================
-    function _GET(search) {
+/*    function _GET(search) {
         var obj = {};
         var uri = decodeURI(search);
             uri = uri.slice(1,uri.length);
@@ -143,7 +143,7 @@ window.onload = function () {
 if (clb == "a") {club = "산술애"; opn = "y";};
 if (clb == "b") {club = "부중산"; opn = "y";};
 if (clb == "c") {club = "all"; opn = "y";};
-			
+*/			
 $(function(){
 	setTimeout(() => alplist(), 500);
 	$(".item").show();
