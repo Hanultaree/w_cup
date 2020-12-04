@@ -140,17 +140,9 @@ window.onload = function () {
 //====== club, opn 지정 =====
 	clb = uval.substr(0,1);
 		
-switch (clb) {
-  case "a" :
-    club = "산술애"; opn = "y";
-    break;
-  case "b" :
-    club = "부중산"; opn = "y";
-    break;
-  case "c" :
-    club = "all"; opn = "y";
-    break;
-};
+if (clb == "a") {club = "산술애"; opn = "y";};
+if (clb == "b") {club = "부중산"; opn = "y";};
+if (clb == "c") {club = "all"; opn = "y";};
 			
 $(function(){
 	setTimeout(() => alplist(), 500);
