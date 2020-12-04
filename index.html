@@ -112,14 +112,14 @@ function fread(fn){
 		
   //--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
   var seq = ""; //--- (산행기)  seq>"000",   "" : 전체목록표	
-  var club = "all"; //--- (산악회)  "부중산", "산술애",   "all" : 전체
+  var club = ""; //--- (산악회)  "부중산", "산술애",   "all" : 전체
   var opn = ""; //--- (사진공개)   "y": 전체공개, "n": 일부공개tlistg();
   //--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
   var num = 0; 	var uval = ""; var clb = "";
   var ctg = "" ;var c_cd = ""; var c_cd0 = ""; var c_cd1 = ""; var cod = "";
 
 //================== seq 값 읽어오기 ================
-/*    function _GET(search) {
+    function _GET(search) {
         var obj = {};
         var uri = decodeURI(search);
             uri = uri.slice(1,uri.length);
@@ -132,18 +132,18 @@ function fread(fn){
         }
         return obj;
     }
-window.onload = function () {
+$(function () {
 	var search = window.location.search;
 	var getData =  _GET(search);
 	uval = getData.val;
-}
+});
 //====== club, opn 지정 =====
 	clb = uval.substr(0,1);
 		
 if (clb == "a") {club = "산술애"; opn = "y";};
 if (clb == "b") {club = "부중산"; opn = "y";};
 if (clb == "c") {club = "all"; opn = "y";};
-*/			
+			
 $(function(){
 	setTimeout(() => alplist(), 500);
 	$(".item").show();
@@ -176,12 +176,9 @@ function cme(){		//-- 산행사진에서 계절별 테이블로 RETURN 할때
 
   //--■■■■■■■■■■■■■■■■■999_alplist.js■■■■■■■■■■■■■■■■■■
   //*== ●●●●●●●● alplist();      ----계절별 산행사진 모음 테이블----start==========
-  var yer=0;
-  var yer1=0;
-  var ssn=2;
-  var cnn=2;
-  var ncl="s2";
-
+  var yer=0;   var yer1=0;   var ssn=2;   var cnn=2;   var ncl="s2";
+  var lists = new Array;
+		
   function alplist(){
   	$(function() {
 	 	var txt = new Array; var tsm="";
@@ -189,23 +186,21 @@ function cme(){		//-- 산행사진에서 계절별 테이블로 RETURN 할때
    		txt.push('<div class="contents"><div class="item s0"><button class="btn" onClick="ime();">RETURN</button><button class="btn b1" onclick="tlistg();lit();">산행지List</button><h2>' + club + ' 계절별 산행사진 모음</h2></div>');
   		txt.push('<div class="item s1 tit">년도</div><div class="item s2 tit">봄</div><div class="item s3 tit">여름</div><div class="item s4 tit">가을</div><div class="item s5 tit">겨울</div>'); //*--table 표 헤드부분....
 
-  //*-------------------------------------------------------------------------------
   //========== 배열 영역 (frames) ======================
-    if (club !="all"){
-  var lists = $.map(skds, function(element, index) {
-   	  if (element[10] == club) {
-  	 	return [element]
-  	  };
-  });
-    };
-
-    if (club=="all"){
-  var lists = $.map(skds, function(element, index) {
-  	 if (element[12] !="") {
-  	 	return [element]
-  	 };
-  });
-    };
+	if (club=="all"){
+	  lists = $.map(skds, function(element, index) {
+		 if (element[12] !="") {
+			return [element]
+		 };
+	  });
+	}else{
+	  lists = $.map(skds, function(element, index) {
+		  if (element[10] == club) {
+			return [element]
+		  };
+	  });
+	};
+//*-------------------------------------------------------------------------------
 
   	for (i=0; i<lists.length; i++){
    			if ((lists[i][1].substr(5,2)>02) && (lists[i][1].substr(5,2)<06)){ssn=2;}
@@ -280,23 +275,7 @@ function cme(){		//-- 산행사진에서 계절별 테이블로 RETURN 할때
   $(function(){
     init();
   });
-  //========== 배열 영역 (frames) ======================
-    if (club!="all"){
-  var lists = $.map(skds, function(element, index) {
-  	  if (element[10] == club) {
-  	 	return [element]
-  	  };
-  });
-    };
-
-    if (club=="all"){
-  var lists = $.map(skds, function(element, index) {
-  	 if (element[12] !="") {
-  	 	return [element]
-  	 };
-  });
-    };
-
+ 
   function init(){
     tagParsing(lists, true);
 
