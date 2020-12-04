@@ -152,16 +152,16 @@ switch (clb) {
 };
 
 $(function(){
-		alplist();
-		$(".item").show();
+	alplist();
+	$(".item").show();
 
-		$(function() {
-			$(document).on("click", ".mnt", function(){
-				seq=$(this).attr('title');  //*변수생성하여 클릭한 title을 대입
-				$(".item").hide();
-				alprpt(seq);
-			});
+	$(function() {
+		$(document).on("click", ".mnt", function(){
+			seq=$(this).attr('title');  //*변수생성하여 클릭한 title을 대입
+			$(".item").hide();
+			alprpt(seq);
 		});
+	});
 });
 
 function item(){		//-- 산행지list에서 계절별 테이블로 RETURN 할때
@@ -198,20 +198,18 @@ function cme(){		//-- 산행사진에서 계절별 테이블로 RETURN 할때
 
   //*-------------------------------------------------------------------------------
   //========== 배열 영역 (frames) ======================
-    if (club !=""){
-  var lists = $.map(skds, function(element, index) {
-   	  if (element[10] == club) {
-  	 	return [element]
-  	  };
-  });
-    };
-
-    if (club==""){
-  var lists = $.map(skds, function(element, index) {
-  	 if (element[12] !="") {
-  	 	return [element]
-  	 };
-  });
+    if (club ==""){
+	  var lists = $.map(skds, function(element, index) {
+		 if (element[0] !="") {
+			return [element]
+		 };
+	  });
+    }else {
+	  var lists = $.map(skds, function(element, index) {
+		  if (element[10] == club) {
+			return [element]
+		  };
+	  });
     };
 
   	for (i=0; i<lists.length; i++){
