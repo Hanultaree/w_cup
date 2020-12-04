@@ -343,7 +343,7 @@ function cme(){		//-- 산행사진에서 계절별 테이블로 RETURN 할때
   //========== data table list ======================
   	var listxt = new Array; var lstsm="";
 
-  		listxt.push('<div class="titleTable contents"><div id="" class="lit u0"><button class="btn" onclick="item();">RETURN</button><h2> ◆◆◆  산행지 List  ◆◆◆ </h2><br></div><div id="name" class="stitle lit u1">산이름</div><div id="area" class="stitle lit u2">지역</div><div id="date" class="stitle lit u3">일자</div><div id="mont" class="stitle lit u4">월</div><div id="hr" class="stitle lit u5">시간</div><div id="cour" class="stitle lit u6">코스</div></div><div id="data" class="contents data">');
+  		listxt.push('<div class="titleTable contents"><div id="" class="lit u0"><button class="btn" onclick="item();">RETURN</button><h2> ◆◆◆  ' + club + ' 산행지 List  ◆◆◆ </h2><br></div><div id="name" class="stitle lit u1">산이름</div><div id="area" class="stitle lit u2">지역</div><div id="date" class="stitle lit u3">일자</div><div id="mont" class="stitle lit u4">월</div><div id="hr" class="stitle lit u5">시간</div><div id="cour" class="stitle lit u6">코스</div></div><div id="data" class="contents data">');
 
     for(i=0; i<lists.length; i++){
       listxt.push('<div class="lit u1">'+lists[i][2]+'</div><div class="lit u2">'+lists[i][3]+'</div><div class="lit u3">'+lists[i][1]+'</div><div class="lit u4">'+lists[i][13]+'</div><div class="lit u5">'+lists[i][5]+'</div><div class="lit u6">'+lists[i][4]+'</div>');
