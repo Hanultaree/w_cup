@@ -11,11 +11,28 @@
 	*{margin:0;padding:0px;list-style:none;text-decoration:none;}
 	body{padding:10px;}
 	.container{border:5px solid gray;max-width:1200px;}
-/*------------------mmenu 용 css-------------------- */
-	.mmenu{max-height:100%;padding:150px;background:#008080;color:#000;display:grid;grid-gap:10px;grid-template-columns: repeat(8, 80px);grid-auto-rows: 80px; grid-template-areas:"k h h h h h h r" "k h h h h h h r" "k h h h h h h r" "k h h h h h h r" "k h h h h h h r" "k h h h h h h r" "k a a a a b b m" "k a a a a b b m" "k e e c c d d n" "k e e c c d d n" "k f f f f g g n" "k f f f f g g n" ;align-content:center;justify-content:center;}
 
  /*------------  alplist(); ----계절별 산행사진 모음 테이블 용 css------------ */
 	h1,h2{text-align: center;}
+	.btn{cursor:pointer;text-align:center;font-weight:bold;padding:5px;color:#f00;margin:0px 20px; position:fixed;}
+	.b1{left:150px;}
+	.contents{height:auto;display:grid;grid-gap:2px;grid-template-columns: 6fr 2fr 4fr 5fr 3fr 8fr 11fr 11fr;}
+	.contents div{font-size:0.8em;}
+	.mnt:hover{color:red;cursor:pointer;}
+
+	.item.s0{grid-column:span 8;padding:30px 50px;}
+	.item.s2{grid-column:span 3;}
+	.item.s3{grid-column:span 2;}
+	.item{background:#e0ebeb;padding:5px;}
+	.tit,.s1{text-align:center;font-weight:bold;}
+
+ /*------------  tlistg(); ----산행지 List 용 css------------ */
+	.lit{background:#e0ebeb;padding:0px 5px;display:none;}
+	.lit.u0{grid-column:span 8;padding:2em;}
+	.lit.u1{grid-column:span 2;}
+	.lit.u6{grid-column:span 2;}
+    	.stitle{text-align:center;font-weight:bold;border:1px solid gray;}
+	.stitle:hover{color:red;cursor:pointer;}
 
  /*------------  alprpt(); ----산행지 별 산행사진/슬라이드 용 css------------ */
 	.canvas{grid-column:span 8;background:black;border-top: 5px solid #cc9933;border-left: 5px solid #cc9933;border-right: 5px solid #663300;border-bottom: 5px solid #663300;}
@@ -28,13 +45,12 @@
 	.ta{font-size:0.8em;text-align:center;}
 	.tb{font-size:1.3em;font-weight:bold;text-align:center;}
 	.tc{font-size:0.8em;font-weight:bold;text-align:right;line-height:140%;padding-bottom:1%;}
-	  #volumeMute{cursor:pointer;font-weight:bold;color:red;}
 	
 	li{font-size:0.8em;line-height:180%;}
 	img{max-width:100%;text-align:center;margin:1%;}
-	.pcanvas>div{color:#ffccff;background:black;}
+	.pcanvas>div{color:#ffccff;background:black;padding:3%;}
 	.pcanvas h2{padding-top:2%;}
-	.pcanvas button{cursor:pointer;margin:3%;margin-left:6%;color:#f00;}
+	.pcanvas button{cursor:pointer;margin:3%;color:#f00;}
 
 	.slid1{position: absolute;text-align: center;	animation:myslide 15s -12.5s ease infinite;}
 	.slid2{position: absolute;text-align: center;	animation:myslide 15s -10s ease infinite;}
@@ -60,14 +76,18 @@
 </div>
 
 	<script type="text/javascript">
-//***********************************************		
+
+fread("skds");
+fread("trimgs");
+fread("ytbm");
+	
 function fread(fn){
     $(function (){
-	var fileName = '../uni2o4o-1/' + fn + '.csv';	// 파일 이름
+	var fileName = "../uni2o4o/" + fn + ".csv";	// 파일 이름
 
 	$.ajax({
 		url:fileName,
-		headers: {  'Access-Control-Allow-Origin': '../uni2o4o-1/' },
+     headers: {  'Access-Control-Allow-Origin': '../uni2o4o/' },
 		dataType:'text',
 		success: function(da) {
 			var textLine = '<script type="text/javascript">var ' + fn + '=[';
@@ -88,7 +108,16 @@ function fread(fn){
 	});
     });
 };
-//***********************************************		
+
+  //--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  var seq = ""; //--- (산행기)  seq>"000",   "" : 전체목록표	
+  var club = ""; //--- (산악회)  "부중산", "산술애",   "" : 전체
+  var opn = ""; //--- (사진공개)   "y": 전체공개, "n": 일부공개tlistg();
+  //--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  var num = 0; 	var uval = ""; var clb = "";
+  var ctg = "" ;var c_cd = ""; var c_cd0 = ""; var c_cd1 = ""; var cod = "";
+ 
+//================== seq 값 읽어오기 ================
     function _GET(search) {
         var obj = {};
         var uri = decodeURI(search);
@@ -102,7 +131,263 @@ function fread(fn){
         }
         return obj;
     }
-//***********************************************		
+window.onload = function () {
+	var search = window.location.search;
+	var getData =  _GET(search);
+	uval = getData.val;
+}
+//====== club, seq, opn 지정 =====
+	clb = uval.substr(0,1);
+
+switch (clb) {
+  case "a" :
+    club = "산술애"; opn = "y";
+    break;
+  case "b" :
+    club = "부중산"; opn = "y";
+    break;
+  case "c" :
+    club = ""; opn = "y";
+    break;
+};
+
+$(function(){
+		alplist();
+		$(".item").show();
+
+		$(function() {
+			$(document).on("click", ".mnt", function(){
+				seq=$(this).attr('title');  //*변수생성하여 클릭한 title을 대입
+				$(".item").hide();
+				alprpt(seq);
+			});
+		});
+});
+
+function item(){		//-- 산행지list에서 계절별 테이블로 RETURN 할때
+	$(".lit").hide();
+	$(".titleTable").remove();
+	$("#data").remove();
+	$(".item").show();
+};
+function lit(){		//-- 계절별 테이블에서 산행지list로 갈때
+	$(".item").hide();
+	$(".lit").show();
+};
+
+function cme(){		//-- 산행사진에서 계절별 테이블로 RETURN 할때
+	stopVideo();
+	$(".canvas").remove();
+	$(".item").show();
+};
+
+  //--■■■■■■■■■■■■■■■■■999_alplist.js■■■■■■■■■■■■■■■■■■
+  //*== ●●●●●●●● alplist();      ----계절별 산행사진 모음 테이블----start==========
+  var yer=0;
+  var yer1=0;
+  var ssn=2;
+  var cnn=2;
+  var ncl="s2";
+
+  function alplist(){
+  	$(function() {
+	 	var txt = new Array; var tsm="";
+
+   		txt.push('<div class="contents"><div class="item s0"><button class="btn" onClick="ime();">RETURN</button><button class="btn b1" onclick="tlistg();lit();">산행지List</button><h2>' + club + ' 계절별 산행사진 모음</h2></div>');
+  		txt.push('<div class="item s1 tit">년도</div><div class="item s2 tit">봄</div><div class="item s3 tit">여름</div><div class="item s4 tit">가을</div><div class="item s5 tit">겨울</div>'); //*--table 표 헤드부분....
+
+  //*-------------------------------------------------------------------------------
+  //========== 배열 영역 (frames) ======================
+    if (club !=""){
+  var lists = $.map(skds, function(element, index) {
+   	  if (element[10] == club) {
+  	 	return [element]
+  	  };
+  });
+    };
+
+    if (club==""){
+  var lists = $.map(skds, function(element, index) {
+  	 if (element[12] !="") {
+  	 	return [element]
+  	 };
+  });
+    };
+
+  	for (i=0; i<lists.length; i++){
+   			if ((lists[i][1].substr(5,2)>02) && (lists[i][1].substr(5,2)<06)){ssn=2;}
+   			if ((lists[i][1].substr(5,2)>05) && (lists[i][1].substr(5,2)<09)){ssn=3;}
+   			if ((lists[i][1].substr(5,2)>08) && (lists[i][1].substr(5,2)<12)){ssn=4;}
+   			if ((lists[i][1].substr(5,2)>11) || (lists[i][1].substr(5,2)<03)){ssn=5;}
+  //*-------------------------------------------------------------------------------
+  			yer=parseInt(lists[i][1].substr(0,4));
+  		if (i==0){
+  			if (lists[i][1].substr(5,2)<03)	{
+  				yer1=yer-1;
+  			}else{
+  				yer1=yer;
+  			}
+   			txt.push('<div class="item s1">' + yer1 + '</div><div class="item s2">');	  //*--년도구분....
+  		}
+
+  	if (yer==yer1){
+  	}else{
+  		for (j=cnn; j<5; j++){
+			cnn = cnn+1;
+			ncl = "s" + cnn;
+  			txt.push('</div><div class="item ' + ncl + '">');};  //*--계절구분....
+  		txt.push('--------------'); yer1=yer; //*--겨울 중 년도구분....
+  	}
+
+  		if (ssn==cnn){}else{
+  			if (ssn>cnn){
+  				for (j=cnn; j<ssn; j++){
+					cnn = cnn+1;
+					ncl = "s" + cnn;
+  					txt.push('</div><div class="item ' + ncl + '">');};  //*--계절구분....
+  			}else{
+				for (j=cnn; j<5; j++){
+					cnn = cnn+1;
+					ncl = "s" + cnn;
+					txt.push('</div><div class="item ' + ncl + '">');};  //*--계절구분....
+  				txt.push('</div><div class="item s1">' + yer1 );cnn = 1;  //*--년도구분....
+
+  				for (j=1; j<ssn; j++){
+					cnn = cnn+1;
+					ncl = "s" + cnn;
+					txt.push('</div><div class="item ' + ncl + '">');};  //*--계절구분....
+  			}
+  		}
+
+		if (lists[i][12]=="y"){txt.push( '<p class="mnt" title="' + lists[i][0] + '">' + lists[i][2] + '</p>');  //*--산행지 data....
+		}else{txt.push( '<p title="' + lists[i][0] + '">' + lists[i][2] + '</p>');}
+  		cnn = ssn;
+  	}
+  //*-------------------------------------------------------------------------------
+  while (cnn<5){
+		cnn = cnn+1;	ncl = "s" + cnn;			
+		txt.push('</div><div class="item ' + ncl + '">');
+
+	if (cnn==5){txt.push('</div></div></div>');}  //*--산행지 data 완료후 겨울까지 table 표 완성....
+	};
+
+  //*-------------------------------------------------------------------------------
+  for (i=0; i<txt.length; i++){tsm=tsm+txt[i]};  //*--canvas <div>에 작성된 code 기록....
+  		$(".container").append([tsm]);
+  });
+  };
+  //*== ● alplist();      ----계절별 산행사진 모음 테이블----end===========
+  //--■■■■■■■■■■■■■■■■■999_tlistg.js■■■■■■■■■■■■■■■■■■
+  //*== ●●●●●●●● tlistg();      ----(산이름/지역/날짜/월)별 정렬 산행지 리스트----start==========
+
+  function tlistg(){
+  	$(function() {
+
+  var orderBy = "asc";
+  $(function(){
+    init();
+  });
+  //========== 배열 영역 (frames) ======================
+    if (club!=""){
+  var lists = $.map(skds, function(element, index) {
+  	  if (element[10] == club) {
+  	 	return [element]
+  	  };
+  });
+    };
+
+    if (club==""){
+  var lists = $.map(skds, function(element, index) {
+  	 if (element[12] !="") {
+  	 	return [element]
+  	 };
+  });
+    };
+
+  function init(){
+    tagParsing(lists, true);
+
+    $(".stitle").click(function(){
+      var titleName = this.id;
+      if(titleName == "name"){
+        objSort(lists, [2]);
+        tagParsing(lists, false);
+      }else if(titleName == "area"){
+        objSort(lists, [3]);
+        tagParsing(lists, false);
+      }else if(titleName == "date"){
+        objSort(lists, [1]);
+        tagParsing(lists, false);
+      }else if(titleName == "mont"){
+        objSort(lists, [13]);
+        tagParsing(lists, false);
+      }else if(titleName == "hr"){
+        objSort(lists, [5]);
+        tagParsing(lists, false);
+      }else if(titleName == "cour"){
+        objSort(lists, [4]);
+        tagParsing(lists, false);
+      }
+	})
+  }
+
+  //========== 정렬  ======================
+  function objSort(obj, sort){
+    if(orderBy == "asc"){ //오름차순 정렬
+      orderBy = "desc";
+      lists.sort(function(a, b){
+        if (a[sort] > b[sort]) return 1;
+        else if (a[sort] < b[sort]) return -1;
+      });
+    }else{ //내림차순 정렬
+      orderBy = "asc";
+      lists.sort(function(a, b){
+        if (a[sort] > b[sort]) return -1;
+        else if (a[sort] < b[sort]) return 1;
+      });
+    }
+  }
+
+  function tagParsing(obj, init){
+    var tag = "";
+    var len = obj.length;
+    for(i=0; i<obj.length; i++){
+      tag += '<div class="lit u1 data">'+obj[i][2]+'</div>'
+      +'<div class="lit u2 data">'+obj[i][3]+'</div>'
+      +'<div class="lit u3 data">'+obj[i][1]+'</div>'
+      +'<div class="lit u4 data">'+obj[i][13]+'</div>'
+      +'<div class="lit u5 data">'+obj[i][5]+'</div>'
+      +'<div class="lit u6 data">'+obj[i][4]+'</div>';
+    }
+     document.getElementById("data").innerHTML = tag;
+	$(".lit").show();
+  }
+
+  //========== data table list ======================
+  	var listxt = new Array; var lstsm="";
+
+  		listxt.push('<div class="titleTable contents"><div id="" class="lit u0"><button class="btn" onclick="item();">RETURN</button><h2> ◆◆◆  산행지 List  ◆◆◆ </h2><br></div><div id="name" class="stitle lit u1">산이름</div><div id="area" class="stitle lit u2">지역</div><div id="date" class="stitle lit u3">일자</div><div id="mont" class="stitle lit u4">월</div><div id="hr" class="stitle lit u5">시간</div><div id="cour" class="stitle lit u6">코스</div></div><div id="data" class="contents data">');
+
+    for(i=0; i<lists.length; i++){
+      listxt.push('<div class="lit u1">'+lists[i][2]+'</div><div class="lit u2">'+lists[i][3]+'</div><div class="lit u3">'+lists[i][1]+'</div><div class="lit u4">'+lists[i][13]+'</div><div class="lit u5">'+lists[i][5]+'</div><div class="lit u6">'+lists[i][4]+'</div>');
+    };
+      listxt.push('</div>');
+
+  for (i=0; i< listxt.length; i++){lstsm=lstsm+listxt[i]};  //*--canvas <div>에 작성된 code 기록....
+	$(".container").append([lstsm]);
+	});
+  };
+
+  //--■■■■■■■■■■■■■■■■■999_alprpt.js■■■■■■■■■■■■■■■■■■
+//*== ●●●●●●●● alprpt();      ----해당(seq)산행기 (음악,일정,사진,슬라이드)영역==
+function alprpt(seq){
+	$(function (){
+		itiner();
+		sli();
+		musbox( null,5);
+});
+};
+
 function itiner(){
 	$(function (){
  		var titin = new Array; var tsum="";
@@ -111,35 +396,36 @@ function itiner(){
 				for (i=0; i<skds.length; i++)
 					{if (skds[i][0] == seq){ num = [i]}
 				}
-var mntname = (skds[num][2]).replace(/\s*\(.*?\)\s*/g, " ");
-
- 	titin.push('<div class="canvas"><div class="header"><h2>' + mntname + ' 산행사진</h2></div><div id="canva1"><div class="slid1"><img id="image1" class="mg"></div><div class="slid2"><img id="image2" class="mg"></div><div class="slid3"><img id="image3" class="mg"></div><div class="slid4"><img id="image4" class="mg"></div><div class="slid5"><img id="image5" class="mg"></div><div class="slid6"><img id="image6" class="mg"></div></div><div class="itiner"><p class="ta">배경음악은..... <span class="tb">'+titlm+'</span> &nbsp &nbsp &nbsp <input type="button" id="volumeMute" value=" 음악on " onClick="volumeMute();"/></p><p class="tc">'+titln+'</p><ul><li>1. 산행일시 : &nbsp; ' + skds[num][1] + ' </li><li>2. 산행지 &nbsp; : &nbsp; ' + skds[num][2] + '_____' + skds[num][3] + ' </li><li>3. 산행코스 : &nbsp; ' + skds[num][4] + ' </li><li>4. 산행시간 : &nbsp; ' + skds[num][5] + ' &nbsp;(휴식/식사 시간 포함)&nbsp; </li><li class="mem">' + skds[num][7] + '</li></ul></div><div class="map"><p>↓ &nbsp; ' + skds[num][2] + ' &nbsp; 등산지도와 코스.....</p><img src="' + skds[num][6] + '"></div><div class="img">');
+				var mntname = (skds[num][2]).replace(/\s*\(.*?\)\s*/g, " ");
+/*				if (club == skds[num][10]){
+					opn = "y";
+					mntname = club + " " + mntname;
+				}else{opn = "n";}
+*/
+        titin.push('<div class="canvas"><div class="header"><button class="btn" onclick="cme();">RETURN</button><h2>' + mntname + ' 산행사진</h2></div><div id="canva1"><div class="slid1"><img id="image1" class="mg"></div><div class="slid2"><img id="image2" class="mg"></div><div class="slid3"><img id="image3" class="mg"></div><div class="slid4"><img id="image4" class="mg"></div><div class="slid5"><img id="image5" class="mg"></div><div class="slid6"><img id="image6" class="mg"></div></div><div class="itiner"><p class="ta">배경음악은..... <span class="tb">'+titlm+'</span></p><p class="tc">'+titln+'</p><ul><li>1. 산행일시 : &nbsp; ' + skds[num][1] + ' </li><li>2. 산행지 &nbsp; : &nbsp; ' + skds[num][2] + '_____' + skds[num][3] + ' </li><li>3. 산행코스 : &nbsp; ' + skds[num][4] + ' </li><li>4. 산행시간 : &nbsp; ' + skds[num][5] + ' &nbsp;(휴식/식사 시간 포함)&nbsp; </li><li class="mem">' + skds[num][7] + '</li></ul></div><div class="map"><p>↓ &nbsp; ' + skds[num][2] + ' &nbsp; 등산지도와 코스.....</p><img src="' + skds[num][6] + '"></div><div class="img">');
 
 //================== 이미지 & description 화면================
-var frame = $.map(trimgs, function(element, index) {
-  if (element[0] === seq) {
- 	return [element];
-  }
-});
-	for (var i=0 ; i < frame.length ; i++ ){
-	   if (frame[i][2] == opn){}
-	   else{
-		if (frame[i][3] ==""){}	
-		else{
-			if (frame[i][4] ==""){}	
-			else{	titin.push('↓ &nbsp;' + frame[i][4] + '<br>');}
-		titin.push('<img src="' + frame[i][3] + '"><br><br>');	}
-	   }
-	}
+	for (var i=0 ; i < trimgs.length ; i++ )
+		{
+		if (trimgs[i][0] == seq && trimgs[i][2] != opn)
+			{
+					if (trimgs[i][3] ==""){}
+					else{
+						if (trimgs[i][4] ==""){}
+						else{	titin.push('↓ &nbsp;' + trimgs[i][4] + '<br/>');}
+			 		titin.push('<img src="' + trimgs[i][3] + '"><br/><br/>');	}
+			}
+		}
 
 //================== 하단 꼬리말 footer 화면==================
- 		titin.push('</div><div id="player"></div><div class="footer"><p>끝까지 즐감해 주셔서 감사합니다......</p><br/><img src="../uni2o4o/iou.gif"></div></div></div>');
+ 		titin.push('</div><div class="footer"><div id="player"></div><p>끝까지 즐감해 주셔서 감사합니다......</p><br/><img src="../uni2o4o-3/iou.gif"></div></div></div>');
 
  for (i=0; i<titin.length; i++){tsum=tsum+titin[i]};
+  $(".item").hide();
   $('.container').append([tsum]);
 });
  };
-//***********************************************		
+
 //================ 이미지 슬라이드 영역 slider ===============
 function sli(){
   	$(function() {
@@ -198,56 +484,7 @@ frames.unshift(' ');
      });
 };
 //*== ● sli();           ----산행기중 슬라이드 부분---- end===============
-//***********************************************		
-//================ 음악 재생 player ==========
-	//embed youtube api script
-    var tag = document.createElement("script");
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-		// 영상의 정보를 담을 player 전역 변수 선언
-		var player = "";
-
-function onYouTubeIframeAPIReady() {
-   player = new YT.Player('player', {
-              height : h
-            , width : w
-            , videoId : selm
-            , playerVars: {
-                'autoplay': 1                     // 자동재생
-               , 'loop' : 1                         // 반복 0 : off, 1 : on
-               , 'playlist' : seln                 // 반복 playlist
-	       , 'mute' : 1			  // mute
-               , 'cc_load_policy' : 0           // 자막 0 : on, 1 : off
-               , 'controls': 1                     // 동영상 플레이어 컨트롤 표기
-               , 'disablekb' : 0                  // 키보드 컨트롤 사용 중지
-            }
-            , events: {
-                'onReady' : onPlayerReady
-		,'onError' : onPlayerError
-            }
-        });
-}
-
-    // 재생
-    function onPlayerReady(event) {event.target.playVideo();};
-    // 일시정지
-    function pauseVideo() {player.pauseVideo();};
-    // 종료
-    function stopVideo() {player.stopVideo();};
-    // Error
-    function onPlayerError(event){player.nextVideo();};
-
-    // 음소거 On / Off
-    function volumeMute() {
-        // 음소거
-        if(player.isMuted() == true) {player.unMute(); jQuery("#volumeMute").val(" 음악off ");}
-	// 음소거 해제
-        else if(player.isMuted() == false) {player.mute(); jQuery("#volumeMute").val(" 음악on ");}
-    };
-
-//***********************************************		
+//*== ● alprpt();      ----해당(seq)산행기 display----end===============
    //--■■■■■■■■■■■■■■■■■음악 __Xplayer.js■■■■■■■■■■■■■■■■■■
 
 var selm = ""; var titlm = ""; var h = '1'; var w = '1';
@@ -277,56 +514,61 @@ else{
         onYouTubeIframeAPIReady();
     });
  };
-//***********************************************		
-  //--■■■■■■■■■■■■■■■■■999_alprpt.js■■■■■■■■■■■■■■■■■■
-//*== ●●●●●●●● alprpt();      ----해당(seq)산행기 (음악,일정,사진,슬라이드)영역==
-function alprpt(seq, opn){
-	$(function (){
-		itiner();
-		sli();
-		musbox( null,5);
-});
-};
-//***********************************************		
-    fread("skds");
-    fread("trimgs");
-    fread("ytbm");
-//***********************************************		
-  //--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  var seq = ""; //--- (산행기)  seq>"000",   "" : 전체목록표	
-  var club = ""; //--- (산악회)  "부중산", "산술애",   "" : 전체
-  var opn = ""; //--- (사진공개)   "y": 전체공개, "n": 일부공개tlistg();
-  //--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  var num = 0; 	var uval = ""; var clb = "";
 
-//================== seq 값 읽어오기 ================
-window.onload = function () {
-	var search = window.location.search;
-	var getData =  _GET(search);
-	uval = getData.val;
 
-	clb = uval.substr(0,1);
-	seq = uval.substr(1,3);
+//================ 음악 재생 player ==========
 
-	if (clb=="c"){ club = ""; opn = "y"}else{
-		if (clb=="a"){ club = "산술애"};
-		if (clb=="b"){ club = "부중산"};
+		// 영상의 정보를 담을 player 전역 변수 선언
+		var player = "";
 
-		for (var i = 0; i < skds.length; i++) {
-			if (skds[i][0] == seq){
-				if (skds[i][10] == club)	{
-					opn = "y";
-				}else{
-					opn = "n";
-				}
-			}
-		}
-	}
-}
-//================== 산행기 alprpt()함수 구동 ================
-// 	$(function() {
-		setTimeout(() => alprpt(seq, opn), 500);
-//	});
+    var tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+   // 영상의 세부정보를 player 변수에 담는다.
+   function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+              height : h
+            , width : w
+            , videoId : selm
+            , playerVars: {
+                'autoplay': 1                     // 자동재생
+               , 'loop' : 1                         // 반복 0 : off, 1 : on
+               , 'playlist' : seln                 // 반복 playlist
+               , 'cc_load_policy' : 0           // 자막 0 : on, 1 : off
+               , 'controls': 1                     // 동영상 플레이어 컨트롤 표기
+               , 'disablekb' : 0                  // 키보드 컨트롤 사용 중지
+            }
+            , events: {
+                'onReady' : onPlayerReady
+			   ,'onError' : onPlayerError
+            }
+        });
+    };
+
+    // 재생
+    function onPlayerReady(event) {event.target.playVideo();	};
+    // 일시정지
+    function pauseVideo() {player.pauseVideo();};
+    // 종료
+    function stopVideo() {player.stopVideo();};
+	// Error
+	function onPlayerError(event){
+		errlist.push('Error: ' + event.data + '\t' + rank + '\t' + title + '\t' + selm + '\r\n');
+		return false;
+	};
+
+    // 음소거 On / Off
+    function volumeMute() {
+        // 음소거
+        if(player.isMuted() == true) {player.unMute(); jQuery("#volumeMute").val("음소거");}
+        // 음소거 해제
+        else if(player.isMuted() == false) {player.mute(); jQuery("#volumeMute").val("음소거 해제");}
+    };
+    // 볼륨 조절
+    function soundControl(number) { player.setVolume(number); };
+
 
  </script>
  </body>
