@@ -198,20 +198,23 @@ function cme(){		//-- 산행사진에서 계절별 테이블로 RETURN 할때
 
   //*-------------------------------------------------------------------------------
   //========== 배열 영역 (frames) ======================
-/*    if (club ==""){
-	  var lists = $.map(skds, function(element, index) {
-		 if (element[0] != "") {
-			return [element]
-		 };
-	  });
-    }else {
-	  var lists = $.map(skds, function(element, index) {
-		  if (element[10] == club) {
-			return [element]
-		  };
-	  });
+    if (club!=""){
+  var lists = $.map(skds, function(element, index) {
+  	  if (element[10] == club) {
+  	 	return [element]
+  	  };
+  });
     };
-*/
+
+    if (club==""){
+  var lists = $.map(skds, function(element, index) {
+  	 if (element[12] !="") {
+  	 	return [element]
+  	 };
+  });
+    };
+//============================================
+		
   	for (i=0; i<lists.length; i++){
    			if ((lists[i][1].substr(5,2)>02) && (lists[i][1].substr(5,2)<06)){ssn=2;}
    			if ((lists[i][1].substr(5,2)>05) && (lists[i][1].substr(5,2)<09)){ssn=3;}
@@ -277,6 +280,10 @@ function cme(){		//-- 산행사진에서 계절별 테이블로 RETURN 할때
   //*== ● alplist();      ----계절별 산행사진 모음 테이블----end===========
   //--■■■■■■■■■■■■■■■■■999_tlistg.js■■■■■■■■■■■■■■■■■■
   //*== ●●●●●●●● tlistg();      ----(산이름/지역/날짜/월)별 정렬 산행지 리스트----start==========
+		
+  function tlistg(){
+  	$(function() {
+		
   //========== 배열 영역 (frames) ======================
     if (club!=""){
   var lists = $.map(skds, function(element, index) {
@@ -295,9 +302,6 @@ function cme(){		//-- 산행사진에서 계절별 테이블로 RETURN 할때
     };
 //============================================
 		
-  function tlistg(){
-  	$(function() {
-
   var orderBy = "asc";
   $(function(){
     init();
