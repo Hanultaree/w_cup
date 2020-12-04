@@ -112,7 +112,7 @@ function fread(fn){
 		
   //--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
   var seq = ""; //--- (산행기)  seq>"000",   "" : 전체목록표	
-  var club = ""; //--- (산악회)  "부중산", "산술애",   "" : 전체
+  var club = ""; //--- (산악회)  "부중산", "산술애",   "all" : 전체
   var opn = ""; //--- (사진공개)   "y": 전체공개, "n": 일부공개tlistg();
   //--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
   var num = 0; 	var uval = ""; var clb = "";
@@ -150,7 +150,7 @@ switch (clb) {
     club = "부중산"; opn = "y";
     break;
   case "c" :
-    club = ""; opn = "y";
+    club = "all"; opn = "y";
     break;
 };
 			
@@ -201,7 +201,7 @@ function cme(){		//-- 산행사진에서 계절별 테이블로 RETURN 할때
 
   //*-------------------------------------------------------------------------------
   //========== 배열 영역 (frames) ======================
-    if (club !=""){
+    if (club !="all"){
   var lists = $.map(skds, function(element, index) {
    	  if (element[10] == club) {
   	 	return [element]
@@ -209,7 +209,7 @@ function cme(){		//-- 산행사진에서 계절별 테이블로 RETURN 할때
   });
     };
 
-    if (club==""){
+    if (club=="all"){
   var lists = $.map(skds, function(element, index) {
   	 if (element[12] !="") {
   	 	return [element]
@@ -291,7 +291,7 @@ function cme(){		//-- 산행사진에서 계절별 테이블로 RETURN 할때
     init();
   });
   //========== 배열 영역 (frames) ======================
-    if (club!=""){
+    if (club!="all"){
   var lists = $.map(skds, function(element, index) {
   	  if (element[10] == club) {
   	 	return [element]
@@ -299,7 +299,7 @@ function cme(){		//-- 산행사진에서 계절별 테이블로 RETURN 할때
   });
     };
 
-    if (club==""){
+    if (club=="all"){
   var lists = $.map(skds, function(element, index) {
   	 if (element[12] !="") {
   	 	return [element]
