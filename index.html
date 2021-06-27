@@ -471,20 +471,18 @@ var seln = "";  var titln = "";
 	selm = ""; titlm = ""; seln = ""; titln = "";
 
 if (a==null){a = Math.floor(Math.random() * ytbm.length);}
-selm = ytbm[a][1];
-titlm = ytbm[a][3] +" - "+ ytbm[a][4];
-	    h = '1';   w = '1';
-
-if (b==1){seln=selm}
-else{
-	for (k=1;k<b ; k++){
+	for (k=0;k<b-1 ; k++){
 		if (k+a==ytbm.length){a=a-ytbm.length;}
-			seln=seln+ytbm[k+a][1]+",";
-			titln=titln+ytbm[k+a][3] +" - "+ ytbm[k+a][4]+"<br/>";
+		id = k+a;
+		selm = ytbm[id][1];
+		seln=seln + selm+",";
+		titlm=ytbm[id][3] +" - "+ ytbm[id][4];
+		titln=titln+titlm+"<br/>";
 	}
-	seln=seln+ytbm[a+b][1];
-	titln=titln+ytbm[k+a][3] +" - "+ ytbm[k+a][4];
-}
+	id = a+b-1;
+	selm = ytbm[id][1];
+	seln=seln + selm;
+	titlm=ytbm[id][3] +" - "+ ytbm[id][4];
 
     // HTML 문서가 모두 준비되면
     $(function () {
