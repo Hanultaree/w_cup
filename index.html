@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.5">
   <link rel="shortcut icon" href="#" type="image/x-icon">
   <link rel="icon" href="#" type="image/x-icon">
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />        
-  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
-  <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>      
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
   <style type="text/css">
 	*{margin:0;padding:0px;list-style:none;text-decoration:none;}
@@ -23,7 +19,7 @@
 	.b1{left:50px;}
 	.contents{height:auto;display:grid;grid-gap:2px;grid-template-columns: 6fr 2fr 4fr 5fr 3fr 8fr 11fr 11fr;}
 	.contents div{font-size:0.8em;}
-	.mnt:hover,.mnta:hover{color:red;cursor:pointer;}
+	.mnt:hover{color:red;cursor:pointer;}
 
 	.item.s0{grid-column:span 8;padding:30px 50px;}
 	.item.s2{grid-column:span 3;}
@@ -121,7 +117,7 @@ function fread(fn){
   var club = ""; //--- (산악회)  "부중산", "산술애",   "" : 전체
   var opn = ""; //--- (사진공개)   "y": 전체공개, "n": 일부공개tlistg();
   //--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  var num = 0; 	var uval = ""; var clb = ""; var mcode = "";
+  var num = 0; 	var uval = ""; var clb = "";
   var ctg = "" ;var c_cd = ""; var c_cd0 = ""; var c_cd1 = ""; var cod = "";
 
 //================== seq 값 읽어오기 ================
@@ -168,8 +164,8 @@ $(function(){
  			
 function item(){		//-- 산행지list에서 계절별 테이블로 RETURN 할때
 	$(".lit").hide();
-//	$(".titleTable").remove();
-//	$("#data").remove();
+	$(".titleTable").remove();
+	$("#data").remove();
 	$(".item").show();
 };
 function lit(){		//-- 계절별 테이블에서 산행지list로 갈때
@@ -181,12 +177,6 @@ function cme(){		//-- 산행사진에서 계절별 테이블로 RETURN 할때
 	stopVideo();
 	$(".canvas").remove();
 	$(".item").show();
-};
-		
-function cmea(){		//-- 산행사진에서 산행지list로 RETURN 할때
-	stopVideo();
-	$(".canvas").remove();
-	$(".lit").show();
 };
 
   //--■■■■■■■■■■■■■■■■■999_alplist.js■■■■■■■■■■■■■■■■■■
@@ -341,7 +331,7 @@ function cmea(){		//-- 산행사진에서 산행지list로 RETURN 할때
     var tag = "";
     var len = obj.length;
     for(i=0; i<obj.length; i++){
-      tag += '<div class="lit u1 data mnta" title="' + lists[i][0] + '">'+obj[i][2]+'</div>'
+      tag += '<div class="lit u1 data">'+obj[i][2]+'</div>'
       +'<div class="lit u2 data">'+obj[i][3]+'</div>'
       +'<div class="lit u3 data">'+obj[i][1]+'</div>'
       +'<div class="lit u4 data">'+obj[i][13]+'</div>'
@@ -364,16 +354,6 @@ function cmea(){		//-- 산행사진에서 산행지list로 RETURN 할때
 
   for (i=0; i< listxt.length; i++){lstsm=lstsm+listxt[i]};  //*--canvas <div>에 작성된 code 기록....
 	$(".container").append([lstsm]);
-		
-		$(function() {
-			$(document).on("click", ".mnta", function(){
-				seq=$(this).attr('title');  //*변수생성하여 클릭한 title을 대입
-				mcode = "mnta";
-				$(".lit").hide();
-				alprpt(seq);
-			});
-		});
-
 	});
   };
 
@@ -401,10 +381,7 @@ function itiner(){
 					mntname = club + " " + mntname;
 				}else{opn = "n";}
 */
-	if (mcode=="mnt"){ titin.push('<div class="canvas"><div class="header"><button class="btn" onclick="cme();">RETURN</button>');	}
-	if (mcode=="mnta"){ titin.push('<div class="canvas"><div class="header"><button class="btn" onclick="cmea();">RETURN</button>'); }
-		
-        titin.push('<h2>' + mntname + ' 산행사진</h2></div><div id="canva1"><div class="slid1"><img id="image1" class="mg"></div><div class="slid2"><img id="image2" class="mg"></div><div class="slid3"><img id="image3" class="mg"></div><div class="slid4"><img id="image4" class="mg"></div><div class="slid5"><img id="image5" class="mg"></div><div class="slid6"><img id="image6" class="mg"></div></div><div class="itiner"><p class="ta">배경음악은..... <span class="tb">'+titlm+'</span> &nbsp &nbsp &nbsp <input type="button" id="volumeMute" value=" 음악on " onClick="volumeMute();"/></p><p class="tc">'+titln+'</p><ul><li>1. 산행일시 : &nbsp; ' + skds[num][1] + ' </li><li>2. 산행지 &nbsp; : &nbsp; ' + skds[num][2] + '_____' + skds[num][3] + ' </li><li>3. 산행코스 : &nbsp; ' + skds[num][4] + ' </li><li>4. 산행시간 : &nbsp; ' + skds[num][5] + ' &nbsp;(휴식/식사 시간 포함)&nbsp; </li><li class="mem">' + skds[num][7] + '</li></ul></div><div class="map"><p>↓ &nbsp; ' + skds[num][2] + ' &nbsp; 등산지도와 코스.....</p><img src="' + skds[num][6] + '"></div><div class="img">');
+        titin.push('<div class="canvas"><div class="header"><button class="btn" onclick="cme();">RETURN</button><h2>' + mntname + ' 산행사진</h2></div><div id="canva1"><div class="slid1"><img id="image1" class="mg"></div><div class="slid2"><img id="image2" class="mg"></div><div class="slid3"><img id="image3" class="mg"></div><div class="slid4"><img id="image4" class="mg"></div><div class="slid5"><img id="image5" class="mg"></div><div class="slid6"><img id="image6" class="mg"></div></div><div class="itiner"><p class="ta">배경음악은..... <span class="tb">'+titlm+'</span> &nbsp &nbsp &nbsp <input type="button" id="volumeMute" value=" 음악on " onClick="volumeMute();"/></p><p class="tc">'+titln+'</p><ul><li>1. 산행일시 : &nbsp; ' + skds[num][1] + ' </li><li>2. 산행지 &nbsp; : &nbsp; ' + skds[num][2] + '_____' + skds[num][3] + ' </li><li>3. 산행코스 : &nbsp; ' + skds[num][4] + ' </li><li>4. 산행시간 : &nbsp; ' + skds[num][5] + ' &nbsp;(휴식/식사 시간 포함)&nbsp; </li><li class="mem">' + skds[num][7] + '</li></ul></div><div class="map"><p>↓ &nbsp; ' + skds[num][2] + ' &nbsp; 등산지도와 코스.....</p><img src="' + skds[num][6] + '"></div><div class="img">');
 
 //================== 이미지 & description 화면================
 	for (var i=0 ; i < trimgs.length ; i++ )
