@@ -511,6 +511,7 @@ if (a==null){a = Math.floor(Math.random() * ytbm.length);}
                 'autoplay': 1                     // 자동재생
                , 'loop' : 1                         // 반복 0 : off, 1 : on
                , 'playlist' : seln                 // 반복 playlist
+	       , 'mute' : 1			  // mute
                , 'cc_load_policy' : 0           // 자막 0 : on, 1 : off
                , 'controls': 1                     // 동영상 플레이어 컨트롤 표기
                , 'disablekb' : 0                  // 키보드 컨트롤 사용 중지
@@ -537,9 +538,9 @@ if (a==null){a = Math.floor(Math.random() * ytbm.length);}
     // 음소거 On / Off
     function volumeMute() {
         // 음소거
-        if(player.isMuted() == true) {player.unMute(); jQuery("#volumeMute").val("음소거");}
+        if(player.isMuted() == true) {player.unMute(); jQuery("#volumeMute").val(" 음악off ");}
         // 음소거 해제
-        else if(player.isMuted() == false) {player.mute(); jQuery("#volumeMute").val("음소거 해제");}
+        else if(player.isMuted() == false) {player.mute(); jQuery("#volumeMute").val(" 음악on ");}
     };
     // 볼륨 조절
     function soundControl(number) { player.setVolume(number); };
