@@ -160,6 +160,7 @@ $(function(){
 
 	$(function() {
 		$(document).on("click", ".mnt", function(){
+			mcode = "mnt";
 			seq=$(this).attr('title');  //*변수생성하여 클릭한 title을 대입
 			$(".item").hide();
 			alprpt(seq);
