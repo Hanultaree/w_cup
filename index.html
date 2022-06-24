@@ -148,26 +148,30 @@ $(function () {
 	
 //====== club, opn 지정 =====
 function cl(){		
-	clb = uval.substr(0,1); opn = uval.substr(4,1);
+	clb = uval.substr(0,1); opn = uval.substr(4,1); seq = uval.substr(5,3);
 	if (opn == "") {opn = "y";};
 	if (clb == "a") {club = "산술애";};
 	if (clb == "b") {club = "부중산";};
 	if (clb == "c") {club = "";};
+	if (seq != "") {
+		alprpt(seq);
+	}else{
+		$(function(){
+			setTimeout(() => alplist(), 500);
+			$(".item").show();
+
+			$(function() {
+				$(document).on("click", ".mnt", function(){
+					mcode = "mnt";
+					seq=$(this).attr('title');  //*변수생성하여 클릭한 title을 대입
+					$(".item").hide();
+					alprpt(seq);
+				});
+			});
+		});
+	};
 };
 			
-$(function(){
-	setTimeout(() => alplist(), 500);
-	$(".item").show();
-
-	$(function() {
-		$(document).on("click", ".mnt", function(){
-			mcode = "mnt";
-			seq=$(this).attr('title');  //*변수생성하여 클릭한 title을 대입
-			$(".item").hide();
-			alprpt(seq);
-		});
-	});
-});
  			
 function item(){		//-- 산행지list에서 계절별 테이블로 RETURN 할때
 	$(".lit").hide();
