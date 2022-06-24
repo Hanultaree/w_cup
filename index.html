@@ -155,8 +155,7 @@ function cl(){
 	if (clb == "c") {club = "";};
 	if (seq != "") {
 		mcode = "mntb";
-		$(".item").hide();
-		alprpt(seq);
+		setTimeout(() => $(".item").hide();alprpt(seq);, 500);
 	}else{
 		$(function(){
 			setTimeout(() => alplist(), 500);
