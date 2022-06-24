@@ -148,31 +148,25 @@ $(function () {
 	
 //====== club, opn 지정 =====
 function cl(){		
-	clb = uval.substr(0,1); opn = uval.substr(4,1); seq = uval.substr(5,3);
+	clb = uval.substr(0,1); opn = uval.substr(4,1);
 	if (opn == "") {opn = "y";};
 	if (clb == "a") {club = "산술애";};
 	if (clb == "b") {club = "부중산";};
 	if (clb == "c") {club = "";};
-	if (seq != "") {
-		mcode = "mntb";
-		setTimeout(() => $(".item").hide();alprpt(seq);, 500);
-	}else{
-		$(function(){
-			setTimeout(() => alplist(), 500);
-			$(".item").show();
-
-			$(function() {
-				$(document).on("click", ".mnt", function(){
-					mcode = "mnt";
-					seq=$(this).attr('title');  //*변수생성하여 클릭한 title을 대입
-					$(".item").hide();
-					alprpt(seq);
-				});
-			});
-		});
-	};
 };
-			
+	
+$(function(){
+	setTimeout(() => alplist(), 500);
+	$(".item").show();
+	$(function() {
+		$(document).on("click", ".mnt", function(){
+			mcode = "mnt";
+			seq=$(this).attr('title');  //*변수생성하여 클릭한 title을 대입
+			$(".item").hide();
+			alprpt(seq);
+		});
+	});
+});
  			
 function item(){		//-- 산행지list에서 계절별 테이블로 RETURN 할때
 	$(".lit").hide();
@@ -406,7 +400,6 @@ function itiner(){
 		var mntname = (skds[num][2]).replace(/\s*\(.*?\)\s*/g, " ");
 		if (mcode=="mnt"){ titin.push('<div class="canvas"><div class="header"><button class="btn" onclick="cme();">RETURN</button>');	}
 		if (mcode=="mnta"){ titin.push('<div class="canvas"><div class="header"><button class="btn" onclick="cmea();">RETURN</button>'); }
-		if (mcode=="mntb"){ titin.push('<div class="canvas"><div class="header">'); }
 		
 		titin.push('<h2>' + mntname + ' 산행사진</h2></div><div id="canva1"><div class="slid1"><img id="image1" class="mg"></div><div class="slid2"><img id="image2" class="mg"></div><div class="slid3"><img id="image3" class="mg"></div><div class="slid4"><img id="image4" class="mg"></div><div class="slid5"><img id="image5" class="mg"></div><div class="slid6"><img id="image6" class="mg"></div></div><div class="itiner"><p class="ta">배경음악은..... <span class="tb">'+titlm+'</span> &nbsp &nbsp &nbsp <input type="button" id="volumeMute" value=" 음악on " onClick="volumeMute();"/></p><p class="tc">'+titln+'</p><ul><li>1. 산행일시 : &nbsp; ' + skds[num][1] + ' </li><li>2. 산행지 &nbsp; : &nbsp; ' + skds[num][2] + '_____' + skds[num][3] + ' </li><li>3. 산행코스 : &nbsp; ' + skds[num][4] + ' </li><li>4. 산행시간 : &nbsp; ' + skds[num][5] + ' &nbsp;(휴식/식사 시간 포함)&nbsp; </li><li class="mem">' + skds[num][7] + '</li></ul></div><div class="map"><p>↓ &nbsp; ' + skds[num][2] + ' &nbsp; 등산지도와 코스.....</p><img src="' + skds[num][6] + '"></div><div class="img">');
 
