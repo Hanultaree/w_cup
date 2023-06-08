@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.3">
+  <link rel="shortcut icon" href="#" type="image/x-icon">
+  <link rel="icon" href="#" type="image/x-icon">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />        
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>      
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <link rel="stylesheet" href="../wcup.css">
+  <script src="wcup_u20.js"> </script>
+
+<body>
+<div id="dvCSV"></div>
+<div class="container">
+	<div id="outa" class="outa">
+		<div class="vw"><div class="titl"><span id="ifm1" class="ifm"></span><span id="ifm2" class="ifm"></span> u20 월드컵축구</div><div class="smit">(11~24회) <input type="number" id="rn" min=11 max=24 min=1><button id="submit">제 출</button></div></br>
+
+		</div>
+		<div id="out1">
+		</div>	
+	</div>
+	<div id="outb" class="outb">
+		<div>
+			<div id="out3">shsthtshts</div>
+			<div id="out3a"></div>
+		</div>
+		<div id="out2">jkljojiop</div>
+	</div>
+</div>
+<script type="text/javascript">
+	let grp_league22 = new Array; let w_cup22 = new Array; let grp_nfo = new Array; let scor = new Array; let score = new Array; let qp = new Array; let ttxt = ""; let data = new Array; let grp_nfos = new Array;
+	let count_a = 0; let count_b = 0; let count_c = 0; let count_d = 0; let count_e = 0; let count_f = 0; let count_g = 0; let count_h = 0; let wtg = ""; let des = ""; let tim = ""; let los = ""; let out_string1 = "";
+	let count = 0; let yrs = 0; let nbr = 0; let rnd = 0; let out_string = ""; let rda = ""; let n_tm = 0; let sele = ""; let po = 0; let zz = 0; let zz1 = 0; let grp_nfos2 = new Array; let grp_nfos1 = new Array;
+	let count_p = 0; let count_q = 0; let count_r = 0; let count_s = 0; 
+
+  //----- 기본자료  ①32참가국(w_cuptm.csv) ②경기일정(grp_league.csv) ③16강 배치(crit.csv)(qp = "A1_B2_C1_D2_E1_F2_G1_H2_D1_C2_B1_A2_F1_E2_H1_G2") ④fifa회원국(fifa.csv) 
+  //----- 생성자료  ⑤조별리그 순위표(grp_nfo배열,poin배열,optt();) ⑥경기일정표(skd();) ⑦토너먼트 대진표(drawt();) ⑧토너먼트 경기일정배열(data)
+  //----- 토너먼트 대진표 작성 기준 
+  //----- * 위치별 ID code 지정 ( #t01~#t16 : 16강 위치, #t17~#t32 : 경기 위치(8강,4강...)
+  //----- * 16강배열,경기배열 (crit, qp = "2022_A1_B2_C1_D2_E1_F2_G1_H2_D1_C2_B1_A2_F1_E2_H1_G2_w49_w50_w53_w54_w51_w52_w55_w56_w58_w57_w60_w59_w61_w62_w63_w64")
+  //----- * 경기시각,score기록 ( 경기일시장소: grp_league[i][1~3], 경기팀명: grp_league[i][4~5], 경기코드: grp_league[i][6], 팀구성코드: grp_league[i][7], 승패score: grp_league[i][8], 경고: grp_league[i][9] )
+
+	fread("fifa");	
+	fread("crit_u20");	
+	fread("w_cuptm_u20");	
+	fread("grp_league_u20");	
+
+//======= 회차 변경시 ======
+$("#rn").change(function(){
+	$( function() {
+		 rnd = 0; yrs = "";
+		rnd = Number(document.getElementById('rn').value); 
+		yrs = String(1975 + rnd * 2);
+		$('#ifm1').empty(); $('#ifm1').append(rnd);
+		$('#ifm2').empty(); $('#ifm2').append(yrs);
+	});
+});
+
+//--- 최초 실행시 최근 월드컵 실행
+$(function (){
+	rnd = 24; yrs = "2023";
+	main();
+});
+
+$( 'button#submit' ).click( function() {
+	$( function() {
+		count_a = 0; count_b = 0; count_c = 0; count_d = 0; count_e = 0; count_f = 0; count_g = 0; count_h = 0; wtg ="";  des = ""; tim = ""; los = ""; out_string1 = "";
+		count = 0; poin = []; qp = []; grp_nfo = []; grp_nfos = [];
+		//--- css 원상 환원
+		$(".lsr").css("color","red");
+		for (i=17; i<33; i++){
+			if (i<25){ $("#t"+i).removeClass("lw8 rw8"); };
+			if (i>24 && i<29){ $("#t"+i).removeClass("lw4 rw4"); };
+			if (i==29 || i==30){ $("#t"+i).removeClass("lw2 rw2"); };
+			if (i==31){ $("#t"+i).removeClass("lw3 rw3"); };
+			if (i==32){ $("#t"+i).removeClass("lw1 rw1"); };
+			$('#t31a').removeClass("lw3 rw3"); $('#t31b').removeClass("lw3 rw3");
+			$('#t31a').css('border','none'); $('#t31b').css('border','none');
+			$('#t31a').css('border-top','2px dashed #ebf7f9'); $('#t31b').css('border-top','2px dashed #ebf7f9');
+		};
+		main();
+	});
+});
+
+function main(){
+	$( function() {
+		po = 0; zz = 0; zz1 = 0;
+		setTimeout(function() {
+			selec(yrs);  //--- w_cup22, grp_league22 배열 만들기
+			qp = crit_u20[Number(rnd)]; //--- 토너먼트 (16강&경기배열)기준 
+		}, 600);
+		if (rnd<11){ sele = "2"; zz=24; zz1=32; tn=8;};
+		if (rnd>10){ sele = "7"; zz=36; zz1=12; tn=16;};
+		out_string1 = "";
+		$("#out1").empty();
+		$("#out2").empty();
+		$("#out3").empty();
+		$("#out3a").empty();
+		$("#out3a").hide();
+		if (rnd<11){
+			$(".titl").css({"width" : "340px"});
+			$("#outb").css({"flex-direction" : "column"});
+			$("#out1").css({"width" : "630px"});
+			$("#out2").css({"width" : "650px"});
+			$("#out3").css({"margin" : "10px 0px 0px 0px"});
+			$("#out3a").css({"margin" : "10px 0px 0px 0px"});
+			$("#t33").css({"font-size" : "12px"});
+		}else{
+			$(".titl").css({"width" : "500px"});
+			$("#outb").css({"flex-direction" : ""});
+			$("#out1").css({"width" : ""});
+			$("#out2").css({"width" : ""});
+			$("#out3").css({"margin" : "10px 10px 0px 0px"});
+			$("#out3a").css({"margin" : "10px 10px 0px 0px"});
+			$("#t33").css({"font-size" : "14px"});
+		};
+		if (rnd==23 || yrs=="2021"){
+			ttxt = '<div id="t33"><h2>코로나19 팬데믹으로 취소되었슴.</h2></div>';
+			$("#out1").css({"width" : "630px"});
+			$("#out1").append(ttxt);
+		}else{
+			setTimeout(wcmain, 650);
+		};
+	});
+};
+
+  </script>
+ </body>
+</html>
